@@ -2,9 +2,9 @@ import http from '@/lib/axios';
 
 export const login = async (data: any) => {
   try {
-    const res = await http.post('/api/users/login', data);
+    await http.post('/api/users/login', data);
 
-    console.log(res.data);
+    return {};
   } catch (error) {
     console.log(error);
   }
