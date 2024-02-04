@@ -1,9 +1,31 @@
+'use client';
+
+import { useEffect } from 'react';
+
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import http from '@/lib/axios';
 
-export default function todo() {
+export default function Todo() {
+  useEffect(() => {
+    const login = async () => {
+      try {
+        const res = await http.post('/api/users/login', {
+          email: 'kaparapu.akhilnaidu@gmail.com',
+          password: 'iwillhack',
+        });
+
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    login();
+  }, []);
+
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900'>
       <header className='mb-10'>
