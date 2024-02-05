@@ -7,9 +7,11 @@ import TodoCard from "@/components/TodoCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 const Todo = () => {
   const queryClient = useQueryClient();
+  const [input, setInput] = useState<string>();
 
   const {
     isPending: isLoginPending,
@@ -58,26 +60,43 @@ const Todo = () => {
 
   return (
     <div className="flex flex-col items-center pt-[50px] min-h-screen bg-gray-100 dark:bg-gray-900">
-      {/* <main className="w-full max-w-md mx-auto flex justify-around">
+      <main className="w-full max-w-md mx-auto flex justify-around">
         <Button
           onClick={() =>
             loginMutation({
-              email: "kaparapu.akhilnaidu@gmail.com",
-              password: "iwillhack",
+              email: "36rahaman@gmail.com",
+              password: "123456",
             })
           }
         >
           Login
         </Button>
-        <Button onClick={() => addTodoMutation({ task: "akhil" })}>
+        {/* <Button onClick={() => addTodoMutation({ task: "akhil" })}>
           AddTodo
         </Button>
-        <Button onClick={() => logoutMutation()}>Logout</Button>
-      </main> */}
+        <Button onClick={() => logoutMutation()}>Logout</Button> */}
+      </main>
 
       <main className="flex gap-4 mb-[20px] h-auto w-full md:md:w-[400px] ">
-        <Input className="py-6" type="text" placeholder="Enter Todo" />
-        <Button className="py-6">Add Todo</Button>
+        <Input
+          className="py-6"
+          type="text"
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+          value={input}
+          placeholder="Enter Todo"
+          required={true}
+        />
+        <Button
+          className="py-6"
+          onClick={() => {
+            addTodoMutation({ task: input });
+            setInput("");
+          }}
+        >
+          Add Todo
+        </Button>
       </main>
       <div>
         {isAddTodoPending && (
@@ -87,16 +106,16 @@ const Todo = () => {
         )}
         {todoData?.map((todo: any) => {
           return (
-            <div
-              className="py-2 px-4 bg-gray-200 w-60  m-4 text-center rounded-md"
-              key={todo.id}
-            >
-              {todo.task}
+            <div key={todo.id}>
+              <TodoCard
+                item={todo}
+                isAddTodoPending={isAddTodoPending}
+                addTodoVariables={addTodoVariables}
+              />
             </div>
           );
         })}
       </div>
-      <TodoCard />
     </div>
   );
 };
