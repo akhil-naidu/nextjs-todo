@@ -16,12 +16,13 @@ import {
 } from "@/components/ui/popover";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 export default function TodoCard() {
   return (
     <div>
-      <Card className=" w-full md:w-[400px] px-4 py-3 mb-4">
+      <Card className=" w-full md:w-[400px] px-4 py-4 mb-4 bg-gray-200">
         <div className="flex justify-between items-center">
           <h1>Todo item</h1>
           <Popover>
@@ -30,7 +31,7 @@ export default function TodoCard() {
                 <BsThreeDotsVertical size={18} />
               </div>
             </PopoverTrigger>
-            <PopoverContent className="w-45">
+            <PopoverContent className="w-45 bg-gray-100">
               <div className="grid gap-4">
                 <div className="grid gap-2">
                   <div className="grid grid-cols-1 items-center gap-4">
@@ -38,7 +39,7 @@ export default function TodoCard() {
                       <DialogTrigger asChild>
                         <Button variant="outline">
                           <FaEdit size={18} className="text-yellow-400 mr-2" />
-                          Edit Profile
+                          Edit Todo
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[425px]">
@@ -62,9 +63,9 @@ export default function TodoCard() {
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
-                    <Button>
+                    <Button variant="destructive">
                       {" "}
-                      <FaEdit size={18} className="text-red-400 mr-2" /> Delete
+                      <MdDeleteOutline size={18} className=" mr-2" /> Delete
                       Todo
                     </Button>
                   </div>
