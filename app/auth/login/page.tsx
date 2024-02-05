@@ -1,5 +1,11 @@
+import { LoginView } from '@/_views/LoginView';
+
 const Login = () => {
-  return <div>Login</div>;
+  return (
+    <div>
+      <LoginView />
+    </div>
+  );
 };
 
 export default Login;
