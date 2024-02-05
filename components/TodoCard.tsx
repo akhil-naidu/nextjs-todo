@@ -21,8 +21,8 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 export default function TodoCard() {
   return (
-    <div>
-      <Card className=" w-full md:w-[400px] px-4 py-4 mb-4 bg-gray-200">
+    <div className="w-full md:w-[400px] ">
+      <Card className="w-full md:w-[400px] px-4 py-4 mb-4 bg-gray-200">
         <div className="flex justify-between items-center">
           <h1>Todo item</h1>
           <Popover>

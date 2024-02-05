@@ -57,7 +57,7 @@ const Todo = () => {
   });
 
   return (
-    <div className="flex flex-col items-center pt-[50px] min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="flex flex-col items-center pt-[50px] min-h-screen bg-gray-100 dark:bg-gray-900 p-4 md:p-10">
       {/* <main className="w-full max-w-md mx-auto flex justify-around">
         <Button
           onClick={() =>
@@ -75,7 +75,7 @@ const Todo = () => {
         <Button onClick={() => logoutMutation()}>Logout</Button>
       </main> */}
 
-      <main className="flex gap-4 mb-[20px] h-auto w-full md:md:w-[400px] ">
+      <main className="flex gap-4 mb-[20px] flex-col md:flex-row h-auto w-full md:md:w-[400px] ">
         <Input className="py-6" type="text" placeholder="Enter Todo" />
         <Button className="py-6">Add Todo</Button>
       </main>
