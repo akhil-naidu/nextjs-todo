@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { login } from '@/apis/auth';
 import { keys } from '@/apis/query-keys';
@@ -16,9 +16,10 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { isAuthenticated } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 
-export function LoginView() {
+const LoginView = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -48,6 +49,18 @@ export function LoginView() {
       password,
     });
   };
+
+  useLayoutEffect(() => {
+    const isAuth = async () => {
+      const auth = await isAuthenticated();
+
+      if (auth) {
+        router.push('/');
+      }
+    };
+
+    isAuth();
+  }, [router]);
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900'>
@@ -101,4 +114,6 @@ export function LoginView() {
       </Card>
     </div>
   );
-}
+};
+
+export default LoginView;

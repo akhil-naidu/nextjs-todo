@@ -27,7 +27,7 @@ export default function Navbar() {
 
   return (
     <header className='flex justify-between items-center p-6 shadow-md'>
-      <Link className='flex items-center' href='#'>
+      <Link className='flex items-center' href='/'>
         <span className='ml-2 text-xl font-semibold'>TO-DO List</span>
       </Link>
       <nav className='space-x-4'>
