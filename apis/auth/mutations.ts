@@ -9,3 +9,12 @@ export const login = async (data: any) => {
     console.log(error);
   }
 };
+
+export const logout = async () => {
+  try {
+    const res = await http.post('/api/users/logout');
+    return res.data.message;
+  } catch (error) {
+    console.log(error);
+  }
+};

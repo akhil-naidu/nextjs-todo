@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { login } from '@/queries/login';
-import { logout } from '@/queries/logout';
-import { getAllTodos, addTodo } from '@/queries/todos';
+import { login, logout } from '@/apis/auth';
+import { getAllTodos, addTodo } from '@/apis/todos';
+import { keys } from '@/apis/query-keys';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -15,10 +15,12 @@ const Todo = () => {
     variables: loginVariables,
     mutate: loginMutation,
   } = useMutation({
-    mutationKey: ['/api/users/login'],
+    mutationKey: keys('/api/users/login', 'post').main(),
     mutationFn: (userDetails: any) => login(userDetails),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['/api/todos'] });
+      await queryClient.invalidateQueries({
+        queryKey: keys('/api/todos', 'get').main(),
+      });
     },
   });
 
@@ -27,15 +29,15 @@ const Todo = () => {
     variables: logoutVariables,
     mutate: logoutMutation,
   } = useMutation({
-    mutationKey: ['/api/users/logout'],
+    mutationKey: keys('/api/users/logout', 'post').main(),
     mutationFn: () => logout(),
     onSuccess: async () => {
-      await queryClient.setQueryData(['/api/todos'], []);
+      await queryClient.setQueryData(keys('/api/todos', 'get').main(), []);
     },
   });
 
   const { data: todoData } = useQuery({
-    queryKey: ['/api/todos'],
+    queryKey: keys('/api/todos', 'get').main(),
     queryFn: getAllTodos,
   });
 
@@ -44,10 +46,12 @@ const Todo = () => {
     variables: addTodoVariables,
     mutate: addTodoMutation,
   } = useMutation({
-    mutationKey: ['/api/todos', { name: 'addTodo' }],
+    mutationKey: keys('/api/users/todos', 'post').main(),
     mutationFn: (todoData: any) => addTodo(todoData),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['/api/todos'] });
+      await queryClient.invalidateQueries({
+        queryKey: keys('/api/todos', 'get').main(),
+      });
     },
   });
 
@@ -64,7 +68,7 @@ const Todo = () => {
         >
           Login
         </Button>
-        <Button onClick={() => addTodoMutation({ task: 'New Todo' })}>
+        <Button onClick={() => addTodoMutation({ task: 'akhil' })}>
           AddTodo
         </Button>
         <Button onClick={() => logoutMutation()}>Logout</Button>
