@@ -4,10 +4,10 @@ import { login, logout } from "@/apis/auth";
 import { keys } from "@/apis/query-keys";
 import { addTodo, getAllTodos } from "@/apis/todos";
 import TodoCard from "@/components/TodoCard";
+import TodoCardSkeleton from "@/components/TodoCardSkeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
 const Todo = () => {
   const queryClient = useQueryClient();
 
@@ -37,7 +37,7 @@ const Todo = () => {
     },
   });
 
-  const { data: todoData } = useQuery({
+  const { data: todoData, isLoading } = useQuery({
     queryKey: keys("/api/todos", "get").main(),
     queryFn: getAllTodos,
   });
@@ -96,7 +96,7 @@ const Todo = () => {
           );
         })}
       </div>
-      <TodoCard />
+      {isLoading ? <TodoCardSkeleton /> : <TodoCard />}
     </div>
   );
 };
