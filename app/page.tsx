@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-
+import { Card } from "@/components/ui/card";
 const Todo = () => {
   const queryClient = useQueryClient();
   const [input, setInput] = useState<string>();
@@ -61,6 +61,17 @@ const Todo = () => {
 
   return (
     <div className="flex flex-col items-center pt-[50px] min-h-screen bg-gray-100 dark:bg-gray-900 p-4 md:p-10">
+      <Button
+        onClick={() =>
+          loginMutation({
+            email: "36rahaman@gmail.com",
+            password: "123456",
+          })
+        }
+      >
+        Login
+      </Button>
+
       {/* <main className="w-full max-w-md mx-auto flex justify-around">
         <Button
           onClick={() =>
@@ -75,8 +86,9 @@ const Todo = () => {
         {/* <Button onClick={() => addTodoMutation({ task: "akhil" })}>
           AddTodo
         </Button>
-        <Button onClick={() => logoutMutation()}>Logout</Button> */}
+        <Button onClick={() => logoutMutation()}>Logout</Button> 
       </main>
+      */}
 
       <main className="flex gap-4 mb-[20px] h-auto w-full md:md:w-[400px] ">
         <Input
@@ -101,23 +113,30 @@ const Todo = () => {
       </main>
       <div>
         {isAddTodoPending && (
-          <div className="opacity-50 py-2 px-4 bg-red-200 w-60  m-4 text-center rounded-md">
-            {addTodoVariables.task}
+          <div className="w-full md:w-[400px] ">
+            <Card className="w-full md:w-[400px] px-4 py-4 mb-4 bg-pink-200">
+              <div className="flex justify-between items-center">
+                <h1>{addTodoVariables.task} </h1>
+              </div>
+            </Card>
           </div>
         )}
-        {todoData?.map((todo: any) => {
-          return (
-            <div key={todo.id}>
-              <TodoCard
-                item={todo}
-                isAddTodoPending={isAddTodoPending}
-                addTodoVariables={addTodoVariables}
-              />
-            </div>
-          );
-        })}
+        {isLoading ? (
+          <TodoCardSkeleton />
+        ) : (
+          todoData?.map((todo: any) => {
+            return (
+              <div key={todo.id}>
+                <TodoCard
+                  item={todo}
+                  isAddTodoPending={isAddTodoPending}
+                  addTodoVariables={addTodoVariables}
+                />
+              </div>
+            );
+          })
+        )}
       </div>
-      {isLoading ? <TodoCardSkeleton /> : <TodoCard />}
     </div>
   );
 };

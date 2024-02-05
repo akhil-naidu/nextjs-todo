@@ -71,7 +71,7 @@ export default function TodoCard({
     <div className="w-full md:w-[400px] ">
       <Card className="w-full md:w-[400px] px-4 py-4 mb-4 bg-gray-200">
         <div className="flex justify-between items-center">
-          <h1>{isAddTodoPending ? addTodoVariables.task : item.task}</h1>
+          <h1>{item.task}</h1>
           <Popover>
             <PopoverTrigger asChild>
               <div className="cursor-pointer">
