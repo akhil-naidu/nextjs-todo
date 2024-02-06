@@ -44,10 +44,18 @@ export const metadata = {
     },
   ],
   creator: 'ContentQL',
+
+  /* 
+  should be only used once the theme file was configured properly
+
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
+  */
+
+  /*
+  OG Meta tags should be provided only with real seo details, using localhost will give warnings
 
   openGraph: {
     type: 'website',
@@ -64,6 +72,8 @@ export const metadata = {
     images: [`${siteConfig.url}/og.jpg`],
     creator: '@shadcn',
   },
+
+  */
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
