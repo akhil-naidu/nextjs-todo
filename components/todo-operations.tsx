@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
 import { keys } from '@/apis/query-keys';
-import { deleteTodo } from '@/apis/todos/mutations';
+import { deleteTodo, editTodo } from '@/apis/todos/mutations';
 import { Icons } from '@/components/icons';
 import {
   AlertDialog,
@@ -24,6 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { Todo } from '@/types/payload-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -49,6 +50,10 @@ export function TodoOperations({ todo }: { todo: any }) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false);
 
+  const [editInput, setEditInput] = React.useState('');
+  const [showEditAlert, setShowEditAlert] = React.useState<boolean>(false);
+  const [isEditLoading, setIsEditLoading] = React.useState<boolean>(false);
+
   const queryClient = useQueryClient();
 
   const {
@@ -63,9 +68,43 @@ export function TodoOperations({ todo }: { todo: any }) {
         queryKey: keys('/api/todos', 'get').main(),
       });
     },
+    onError: async () => {
+      toast({
+        title: 'Something went wrong.',
+        description: 'Your todo was not deleted. Please try again.',
+        variant: 'destructive',
+      });
+    },
     onSettled: async () => {
       setIsDeleteLoading(false);
       setShowDeleteAlert(false);
+    },
+  });
+
+  const {
+    isPending: isEditTodoPending,
+    variables: editTodoVariables,
+    mutate: editTodoMutation,
+  } = useMutation({
+    mutationKey: keys(`/api/todos/${todo.id}`, 'patch').detail(todo.id),
+    mutationFn: (obj: { id: Todo['id']; task: Todo['task'] }) =>
+      editTodo(obj.id, { task: obj.task }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: keys('/api/todos', 'get').main(),
+      });
+    },
+    onError: async () => {
+      toast({
+        title: 'Something went wrong.',
+        description: 'Your todo was not saved. Please try again.',
+        variant: 'destructive',
+      });
+    },
+    onSettled: async () => {
+      setEditInput('');
+      setIsEditLoading(false);
+      setShowEditAlert(false);
     },
   });
 
@@ -78,7 +117,14 @@ export function TodoOperations({ todo }: { todo: any }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuItem>
-            <Link href={`/editor/${todo.id}`} className='flex w-full'>
+            <Link
+              className='flex w-full'
+              href={''}
+              onClick={() => {
+                setShowEditAlert(true);
+                setEditInput(todo.task);
+              }}
+            >
               Edit
             </Link>
           </DropdownMenuItem>
@@ -107,7 +153,7 @@ export function TodoOperations({ todo }: { todo: any }) {
               onClick={async (event) => {
                 event.preventDefault();
                 setIsDeleteLoading(true);
-                const deleted = deleteTodoMutation(todo.id);
+                deleteTodoMutation(todo.id);
               }}
               className='bg-red-600 focus:ring-red-600'
             >
@@ -117,6 +163,49 @@ export function TodoOperations({ todo }: { todo: any }) {
                 <Icons.trash className='mr-2 h-4 w-4' />
               )}
               <span>Delete</span>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={showEditAlert} onOpenChange={setShowEditAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Edit todo
+              <Input
+                className='py-6'
+                type='text'
+                onChange={(e) => {
+                  setEditInput(e.target.value);
+                }}
+                value={editInput}
+                placeholder='Enter new todo'
+                required={true}
+              />
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Make changes to your Todo here. Click save when done.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async (event) => {
+                event.preventDefault();
+                setIsEditLoading(true);
+                editTodoMutation({
+                  id: todo.id,
+                  task: editInput,
+                });
+              }}
+              className='bg-cyan-600 focus:ring-cyan-600'
+            >
+              {isEditLoading ? (
+                <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+              ) : (
+                <Icons.save className='mr-2 h-4 w-4' />
+              )}
+              <span>Save</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

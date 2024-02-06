@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { Todo } from '@/types/payload-types';
+import { AlertDialogDescription } from '@radix-ui/react-alert-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface TodoCreateButtonProps extends ButtonProps {}
@@ -77,7 +78,7 @@ export function TodoCreateButton({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to create a new todo?
+              Add a New Task
               <Input
                 className='py-6'
                 type='text'
@@ -89,6 +90,9 @@ export function TodoCreateButton({
                 required={true}
               />
             </AlertDialogTitle>
+            <AlertDialogDescription>
+              Enter your new Todo here. Click create when done.
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
