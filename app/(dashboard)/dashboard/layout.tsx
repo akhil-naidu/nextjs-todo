@@ -14,6 +14,7 @@ export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
   const user = {
+    id: '123456',
     name: 'manikanta',
     image: './vercel.svg',
     email: 'manikanta.potnuru@resonateaes.com',
