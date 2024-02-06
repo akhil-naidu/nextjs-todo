@@ -71,7 +71,7 @@ export function TodoCreateButton({
         {...props}
       >
         <Icons.add className='mr-2 h-4 w-4' />
-        New post
+        New Todo
       </button>
       <AlertDialog open={showCreateAlert} onOpenChange={setShowCreateAlert}>
         <AlertDialogContent>
@@ -103,7 +103,7 @@ export function TodoCreateButton({
                 {
                   'cursor-not-allowed opacity-60': isCreateLoading,
                 },
-                className
+                className,
               )}
               disabled={isCreateLoading}
             >
