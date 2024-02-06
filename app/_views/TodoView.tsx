@@ -4,8 +4,8 @@ import { keys } from '@/apis/query-keys';
 import { getAllTodos } from '@/apis/todos';
 import { EmptyPlaceholder } from '@/components/empty-placeholder';
 import { DashboardHeader } from '@/components/header';
-import { PostCreateButton } from '@/components/post-create-button';
 import { DashboardShell } from '@/components/shell';
+import { TodoCreateButton } from '@/components/todo-create-button';
 import { TodoItem } from '@/components/todo-item';
 import { Todo } from '@/types/payload-types';
 import { useQuery } from '@tanstack/react-query';
@@ -19,7 +19,7 @@ const TodoView = () => {
   return (
     <DashboardShell>
       <DashboardHeader heading='Todos' text='Create and manage todos.'>
-        <PostCreateButton />
+        <TodoCreateButton />
       </DashboardHeader>
       <div>
         {todos?.length ? (
@@ -35,7 +35,7 @@ const TodoView = () => {
             <EmptyPlaceholder.Description>
               You don&apos;t have any todos yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <PostCreateButton variant='outline' />
+            <TodoCreateButton variant='outline' />
           </EmptyPlaceholder>
         )}
       </div>

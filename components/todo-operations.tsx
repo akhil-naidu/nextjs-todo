@@ -62,6 +62,8 @@ export function TodoOperations({ todo }: { todo: any }) {
       await queryClient.invalidateQueries({
         queryKey: keys('/api/todos', 'get').main(),
       });
+    },
+    onSettled: async () => {
       setIsDeleteLoading(false);
       setShowDeleteAlert(false);
     },

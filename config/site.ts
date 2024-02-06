@@ -1,7 +1,7 @@
 import { SiteConfig } from '@/types';
 
 export const siteConfig: SiteConfig = {
-  name: 'CONTENTQL',
+  name: 'ContentQL',
   description:
     'An open source application built using the new router, server components and everything new in Next.js 14.',
   url: 'https://tx.shadcn.com',
