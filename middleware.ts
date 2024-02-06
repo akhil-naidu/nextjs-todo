@@ -2,7 +2,11 @@ import { isAuthenticated } from '@/lib/auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-const protectedRoutes = [''];
+const protectedRoutes = [
+  '/dashboard',
+  '/dashboard/billing',
+  '/dashboard/settings',
+];
 
 export const middleware = async (req: NextRequest) => {
   const auth = await isAuthenticated();
