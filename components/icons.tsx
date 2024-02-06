@@ -18,6 +18,7 @@ import {
   MoreVertical,
   Pizza,
   Plus,
+  Save,
   Settings,
   SunMedium,
   Trash,
@@ -50,6 +51,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  save: Save,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden='true'
