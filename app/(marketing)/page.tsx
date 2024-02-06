@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 
-export default async function IndexPage() {
+export default async function Home() {
   return (
     <>
       <section className='space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32'>
