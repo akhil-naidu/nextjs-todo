@@ -55,7 +55,7 @@ const LoginView = () => {
       const auth = await isAuthenticated();
 
       if (auth) {
-        router.push('/');
+        router.push('/dashboard');
       }
     };
 
