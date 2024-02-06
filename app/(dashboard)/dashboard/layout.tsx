@@ -1,26 +1,25 @@
-import { notFound } from 'next/navigation';
+'use client';
 
+import { currUser } from '@/apis/auth/queries';
+import { keys } from '@/apis/query-keys';
 import { MainNav } from '@/components/main-nav';
 import { DashboardNav } from '@/components/nav';
 import { SiteFooter } from '@/components/site-footer';
 import { UserAccountNav } from '@/components/user-account-nav';
 import { dashboardConfig } from '@/config/dashboard';
+import { useQuery } from '@tanstack/react-query';
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const user = {
-    id: '123456',
-    name: 'manikanta',
-    image: './vercel.svg',
-    email: 'manikanta.potnuru@resonateaes.com',
-  };
+  const { data: user, isLoading } = useQuery({
+    queryKey: keys('/api/users/me', 'get').main(),
+    queryFn: currUser,
+  });
 
-  if (!user) {
-    return notFound();
-  }
+  if (isLoading) return;
 
   return (
     <div className='flex min-h-screen flex-col space-y-6'>
@@ -29,9 +28,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <MainNav items={dashboardConfig.mainNav} />
           <UserAccountNav
             user={{
-              name: user.name,
-              image: user.image,
-              email: user.email,
+              name: user?.name,
+              image: user?.image,
+              email: user?.email,
             }}
           />
         </div>

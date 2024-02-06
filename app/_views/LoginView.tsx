@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { isAuthenticated } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
 
 const LoginView = () => {
@@ -51,16 +50,12 @@ const LoginView = () => {
   };
 
   useLayoutEffect(() => {
-    const isAuth = async () => {
-      const auth = await isAuthenticated();
+    const auth = queryClient.getQueryData(keys('/api/users/me', 'get').main());
 
-      if (auth) {
-        router.push('/');
-      }
-    };
-
-    isAuth();
-  }, [router]);
+    if (auth) {
+      router.push('/dashboard');
+    }
+  }, [queryClient, router]);
 
   return (
     <Card className='w-full max-w-sm'>
@@ -93,11 +88,6 @@ const LoginView = () => {
                 required
               />
             </div>
-            <div className='mt-4 text-right'>
-              <Link className='text-sm underline' href='#'>
-                Forgot password?
-              </Link>
-            </div>
             <Button className='w-full' type='submit'>
               Login
             </Button>
@@ -105,7 +95,7 @@ const LoginView = () => {
         </form>
         <div className='mt-4 text-center text-sm'>
           Don&apos;t have an account?
-          <Link className='underline' href='#'>
+          <Link className='underline' href='/register'>
             Sign up
           </Link>
         </div>

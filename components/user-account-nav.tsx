@@ -1,7 +1,11 @@
 'use client';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
+import { logout } from '@/apis/auth';
+import { keys } from '@/apis/query-keys';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +16,22 @@ import {
 import { UserAvatar } from '@/components/user-avatar';
 
 export function UserAccountNav({ user }: { user: any }) {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const {
+    isPending: isLogoutPending,
+    variables: logoutVariables,
+    mutate: logoutMutation,
+  } = useMutation({
+    mutationKey: keys('/api/users/logout', 'post').main(),
+    mutationFn: () => logout(),
+    onSuccess: async () => {
+      await queryClient.setQueryData(keys('/api/todos', 'get').main(), []);
+      router.push('/login');
+    },
+  });
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -46,9 +66,7 @@ export function UserAccountNav({ user }: { user: any }) {
           className='cursor-pointer'
           onSelect={(event: Event) => {
             event.preventDefault();
-            // signOut({
-            //   callbackUrl: `${window.location.origin}/login`,
-            // });
+            logoutMutation();
           }}
         >
           Sign out
