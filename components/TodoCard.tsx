@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import { keys } from "@/apis/query-keys";
+import { deleteTodo, editTodo } from "@/apis/todos/mutations";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -17,14 +18,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaEdit } from "react-icons/fa";
-import { MdDeleteOutline } from "react-icons/md";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { keys } from "@/apis/query-keys";
-import { deleteTodo, editTodo } from "@/apis/todos/mutations";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function TodoCard({
   item,
@@ -39,9 +38,9 @@ export default function TodoCard({
   const {
     isPending: isDeleteTodoPending,
     variables: DeleteTodoVariables,
-    mutate: DeleteTodoMutation,
+    mutate: deleteTodoMutation,
   } = useMutation({
-    mutationKey: keys(`/api/users/todos/`, "delete").main(),
+    mutationKey: keys(`/api/todos/`, "delete").detail(item.id),
     mutationFn: (todoData: any) => deleteTodo(todoData),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -135,7 +134,7 @@ export default function TodoCard({
                     </Dialog>
                     <Button
                       onClick={() => {
-                        DeleteTodoMutation(item.id);
+                        deleteTodoMutation(item.id);
                       }}
                     >
                       <FaEdit size={18} className="text-red-400 mr-2" /> Delete
