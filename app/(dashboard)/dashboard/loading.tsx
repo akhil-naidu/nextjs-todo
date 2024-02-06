@@ -1,7 +1,7 @@
 import { DashboardHeader } from '@/components/header';
 import { PostCreateButton } from '@/components/post-create-button';
 import { DashboardShell } from '@/components/shell';
-import { PostItem } from '@/components/todo-item';
+import { TodoItem } from '@/components/todo-item';
 
 export default function DashboardLoading() {
   return (
@@ -10,11 +10,11 @@ export default function DashboardLoading() {
         <PostCreateButton />
       </DashboardHeader>
       <div className='divide-border-200 divide-y rounded-md border'>
-        <PostItem.Skeleton />
-        <PostItem.Skeleton />
-        <PostItem.Skeleton />
-        <PostItem.Skeleton />
-        <PostItem.Skeleton />
+        <TodoItem.Skeleton />
+        <TodoItem.Skeleton />
+        <TodoItem.Skeleton />
+        <TodoItem.Skeleton />
+        <TodoItem.Skeleton />
       </div>
     </DashboardShell>
   );

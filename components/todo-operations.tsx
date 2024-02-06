@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
+import { keys } from '@/apis/query-keys';
+import { deleteTodo } from '@/apis/todos/mutations';
 import { Icons } from '@/components/icons';
 import {
   AlertDialog,
@@ -23,6 +25,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { toast } from '@/components/ui/use-toast';
+import { Todo } from '@/types/payload-types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 async function deletePost(postId: string) {
   const response = await fetch(`/api/posts/${postId}`, {
@@ -44,6 +48,24 @@ export function TodoOperations({ todo }: { todo: any }) {
   const router = useRouter();
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false);
+
+  const queryClient = useQueryClient();
+
+  const {
+    isPending: isDeleteTodoPending,
+    variables: deleteTodoVariables,
+    mutate: deleteTodoMutation,
+  } = useMutation({
+    mutationKey: keys(`/api/todos/${todo.id}`, 'delete').detail(todo.id),
+    mutationFn: (id: Todo['id']) => deleteTodo(id),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: keys('/api/todos', 'get').main(),
+      });
+      setIsDeleteLoading(false);
+      setShowDeleteAlert(false);
+    },
+  });
 
   return (
     <>
@@ -83,14 +105,7 @@ export function TodoOperations({ todo }: { todo: any }) {
               onClick={async (event) => {
                 event.preventDefault();
                 setIsDeleteLoading(true);
-
-                const deleted = await deletePost(todo.id);
-
-                if (deleted) {
-                  setIsDeleteLoading(false);
-                  setShowDeleteAlert(false);
-                  router.refresh();
-                }
+                const deleted = deleteTodoMutation(todo.id);
               }}
               className='bg-red-600 focus:ring-red-600'
             >

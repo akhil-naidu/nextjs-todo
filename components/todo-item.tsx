@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { TodoOperations } from '@/components/todo-operations';
 import { Skeleton } from '@/components/ui/skeleton';
+import { formatDate } from '@/lib/utils';
 import { Todo } from '@/types/payload-types';
 
 export function TodoItem({ todo }: { todo: Todo }) {
@@ -16,7 +17,7 @@ export function TodoItem({ todo }: { todo: Todo }) {
         </Link>
         <div>
           <p className='text-sm text-muted-foreground'>
-            {/* {formatDate(todo.createdAt?.toDateString())} */}
+            {formatDate(todo.createdAt?.toString())}
           </p>
         </div>
       </div>
@@ -25,7 +26,7 @@ export function TodoItem({ todo }: { todo: Todo }) {
   );
 }
 
-TodoItem.Skeleton = function PostItemSkeleton() {
+TodoItem.Skeleton = function TodoItemSkeleton() {
   return (
     <div className='p-4'>
       <div className='space-y-3'>
