@@ -32,7 +32,7 @@ async function deletePost(postId: string) {
   if (!response?.ok) {
     toast({
       title: 'Something went wrong.',
-      description: 'Your post was not deleted. Please try again.',
+      description: 'Your todo was not deleted. Please try again.',
       variant: 'destructive',
     });
   }
@@ -40,7 +40,7 @@ async function deletePost(postId: string) {
   return true;
 }
 
-export function PostOperations({ post }: { post: any }) {
+export function TodoOperations({ todo }: { todo: any }) {
   const router = useRouter();
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false);
@@ -54,7 +54,7 @@ export function PostOperations({ post }: { post: any }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuItem>
-            <Link href={`/editor/${post.id}`} className='flex w-full'>
+            <Link href={`/editor/${todo.id}`} className='flex w-full'>
               Edit
             </Link>
           </DropdownMenuItem>
@@ -71,7 +71,7 @@ export function PostOperations({ post }: { post: any }) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this post?
+              Are you sure you want to delete this todo?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -84,7 +84,7 @@ export function PostOperations({ post }: { post: any }) {
                 event.preventDefault();
                 setIsDeleteLoading(true);
 
-                const deleted = await deletePost(post.id);
+                const deleted = await deletePost(todo.id);
 
                 if (deleted) {
                   setIsDeleteLoading(false);

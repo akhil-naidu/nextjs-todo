@@ -1,31 +1,31 @@
 import Link from 'next/link';
 
-import { PostOperations } from '@/components/post-operations';
+import { TodoOperations } from '@/components/todo-operations';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatDate } from '@/lib/utils';
+import { Todo } from '@/types/payload-types';
 
-export function PostItem({ post }: { post: any }) {
+export function TodoItem({ todo }: { todo: Todo }) {
   return (
     <div className='flex items-center justify-between p-4'>
       <div className='grid gap-1'>
         <Link
-          href={`/editor/${post.id}`}
+          href={`/editor/${todo.id}`}
           className='font-semibold hover:underline'
         >
-          {post.title}
+          {todo.task}
         </Link>
         <div>
           <p className='text-sm text-muted-foreground'>
-            {formatDate(post.createdAt?.toDateString())}
+            {/* {formatDate(todo.createdAt?.toDateString())} */}
           </p>
         </div>
       </div>
-      <PostOperations post={{ id: post.id, title: post.title }} />
+      <TodoOperations todo={{ id: todo.id, task: todo.task }} />
     </div>
   );
 }
 
-PostItem.Skeleton = function PostItemSkeleton() {
+TodoItem.Skeleton = function PostItemSkeleton() {
   return (
     <div className='p-4'>
       <div className='space-y-3'>
