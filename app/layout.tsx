@@ -82,14 +82,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
-        <TanStackProvider>
-          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          <TanStackProvider>
             {children}
             {/* <Analytics /> */}
             <Toaster />
             <TailwindIndicator />
-          </ThemeProvider>
-        </TanStackProvider>
+          </TanStackProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
