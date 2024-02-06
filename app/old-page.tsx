@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { isAuthenticated } from '@/lib/auth';
+import { Todo } from '@/payload-types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 const Todo = () => {
   const queryClient = useQueryClient();
-  const [input, setInput] = useState<string>();
+  const [input, setInput] = useState<string>('');
 
   const { data: todoData, isLoading } = useQuery({
     queryKey: keys('/api/todos', 'get').main(),
@@ -25,8 +26,8 @@ const Todo = () => {
     variables: addTodoVariables,
     mutate: addTodoMutation,
   } = useMutation({
-    mutationKey: keys('/api/users/todos', 'post').main(),
-    mutationFn: (todoData: any) => addTodo(todoData),
+    mutationKey: keys('/api/todos', 'post').detail(input),
+    mutationFn: (todoData: { task: Todo['task'] }) => addTodo(todoData),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: keys('/api/todos', 'get').main(),
@@ -70,14 +71,10 @@ const Todo = () => {
         {isLoading ? (
           <TodoCardSkeleton />
         ) : (
-          todoData?.map((todo: any) => {
+          todoData?.map((todo: Todo) => {
             return (
               <div key={todo.id}>
-                <TodoCard
-                  item={todo}
-                  isAddTodoPending={isAddTodoPending}
-                  addTodoVariables={addTodoVariables}
-                />
+                <TodoCard item={todo} />
               </div>
             );
           })

@@ -18,6 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { Todo } from '@/payload-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -25,23 +26,15 @@ import { FaEdit } from 'react-icons/fa';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
-export default function TodoCard({
-  item,
-  addTodoVariables,
-  isAddTodoPending,
-}: {
-  item: any;
-  addTodoVariables: any;
-  isAddTodoPending: any;
-}) {
+export default function TodoCard({ item }: { item: Todo }) {
   const queryClient = useQueryClient();
   const {
     isPending: isDeleteTodoPending,
     variables: DeleteTodoVariables,
     mutate: deleteTodoMutation,
   } = useMutation({
-    mutationKey: keys(`/api/todos/`, 'delete').detail(item.id),
-    mutationFn: (todoData: any) => deleteTodo(todoData),
+    mutationKey: keys(`/api/todos/${item.id}`, 'delete').detail(item.id),
+    mutationFn: (todoData: Todo['id']) => deleteTodo(todoData),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: keys('/api/todos', 'get').main(),
@@ -54,8 +47,9 @@ export default function TodoCard({
     variables: EditTodoVariables,
     mutate: EditTodoMutation,
   } = useMutation({
-    mutationKey: keys(`/api/users/todos/`, 'patch').main(),
-    mutationFn: (obj: any) => editTodo(obj.id, { task: obj.task }),
+    mutationKey: keys(`/api/todos/${item.id}`, 'patch').detail(item.id),
+    mutationFn: (obj: { id: Todo['id']; task: Todo['task'] }) =>
+      editTodo(obj.id, { task: obj.task }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: keys('/api/todos', 'get').main(),
@@ -112,6 +106,7 @@ export default function TodoCard({
                                 onChange={(e) => {
                                   setInput(e.target.value);
                                 }}
+                                value={input}
                               />
                             </div>
                           </div>
