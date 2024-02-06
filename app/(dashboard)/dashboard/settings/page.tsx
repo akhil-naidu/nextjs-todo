@@ -1,8 +1,4 @@
-import { redirect } from 'next/navigation';
-
-import { DashboardHeader } from '@/components/header';
-import { DashboardShell } from '@/components/shell';
-import { UserNameForm } from '@/components/user-name-form';
+import SettingsView from '@/app/_views/SettingsView';
 
 export const metadata = {
   title: 'Settings',
@@ -10,29 +6,5 @@ export const metadata = {
 };
 
 export default async function SettingsPage() {
-  const user = {
-    id: '123456',
-    name: 'manikanta',
-    image: './vercel.svg',
-    email: 'manikanta.potnuru@resonateaes.com',
-  };
-
-  if (!user) {
-    redirect('/login');
-  }
-
-  return (
-    <DashboardShell>
-      <DashboardHeader
-        heading='Settings'
-        text='Manage account and website settings.'
-      />
-      <div className='grid gap-10'>
-        <UserNameForm
-          user={{ id: user.id, name: user.name || '' }}
-          className=''
-        />
-      </div>
-    </DashboardShell>
-  );
+  return <SettingsView />;
 }

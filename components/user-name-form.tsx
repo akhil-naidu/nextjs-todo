@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 
 export function UserNameForm({
@@ -24,43 +23,17 @@ export function UserNameForm({
   ...props
 }: {
   user: any;
-  className: string | undefined | null;
+  className: string;
 }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
-  async function onSubmit(data: FormData) {
-    setIsSaving(true);
-
-    // const response = await fetch(`/api/users/${user.id}`, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     name: data.name,
-    //   }),
-    // });
-
-    setIsSaving(false);
-
-    if (false) {
-      return toast({
-        title: 'Something went wrong.',
-        description: 'Your name was not updated. Please try again.',
-        variant: 'destructive',
-      });
-    }
-
-    toast({
-      description: 'Your name has been updated.',
-    });
-
-    router.refresh();
-  }
-
   return (
-    <form className={cn(className)} {...props}>
+    <form
+      className={cn(className)}
+      {...props}
+      onSubmit={(e: React.FormEvent) => e.preventDefault()}
+    >
       <Card>
         <CardHeader>
           <CardTitle>Your Name</CardTitle>
@@ -74,7 +47,12 @@ export function UserNameForm({
             <Label className='sr-only' htmlFor='name'>
               Name
             </Label>
-            <Input id='name' className='w-[400px]' size={32} />
+            <Input
+              id='name'
+              className='w-[400px]'
+              size={32}
+              defaultValue={user.name}
+            />
             {/* {errors?.name && (
               <p className='px-1 text-xs text-red-600'>{errors.name.message}</p>
             )} */}

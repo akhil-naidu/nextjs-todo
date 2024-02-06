@@ -8,12 +8,17 @@ import { DashboardShell } from '@/components/shell';
 import { TodoCreateButton } from '@/components/todo-create-button';
 import { TodoItem } from '@/components/todo-item';
 import { Todo } from '@/types/payload-types';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 const TodoView = () => {
+  const queryClient = useQueryClient();
+
+  const user = queryClient.getQueryData(keys('/api/users/me', 'get').main());
+
   const { data: todos, isLoading } = useQuery({
     queryKey: keys('/api/todos', 'get').main(),
     queryFn: getAllTodos,
+    enabled: !!user,
   });
 
   return (
