@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
+import TanStackProvider from '@/providers/TanStackProvider';
 import '@/styles/globals.css';
 
 const fontSans = FontSans({
@@ -81,12 +82,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          {children}
-          {/* <Analytics /> */}
-          <Toaster />
-          <TailwindIndicator />
-        </ThemeProvider>
+        <TanStackProvider>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+            {children}
+            {/* <Analytics /> */}
+            <Toaster />
+            <TailwindIndicator />
+          </ThemeProvider>
+        </TanStackProvider>
       </body>
     </html>
   );

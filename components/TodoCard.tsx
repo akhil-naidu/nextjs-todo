@@ -18,7 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Todo } from '@/payload-types';
+import { Todo } from '@/types/payload-types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -26,15 +26,15 @@ import { FaEdit } from 'react-icons/fa';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
-export default function TodoCard({ item }: { item: Todo }) {
+export default function TodoCard({ todo }: { todo: Todo }) {
   const queryClient = useQueryClient();
   const {
     isPending: isDeleteTodoPending,
-    variables: DeleteTodoVariables,
+    variables: deleteTodoVariables,
     mutate: deleteTodoMutation,
   } = useMutation({
-    mutationKey: keys(`/api/todos/${item.id}`, 'delete').detail(item.id),
-    mutationFn: (todoData: Todo['id']) => deleteTodo(todoData),
+    mutationKey: keys(`/api/todos/${todo.id}`, 'delete').detail(todo.id),
+    mutationFn: (id: Todo['id']) => deleteTodo(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: keys('/api/todos', 'get').main(),
@@ -44,10 +44,10 @@ export default function TodoCard({ item }: { item: Todo }) {
 
   const {
     isPending: isEditTodoPending,
-    variables: EditTodoVariables,
+    variables: editTodoVariables,
     mutate: EditTodoMutation,
   } = useMutation({
-    mutationKey: keys(`/api/todos/${item.id}`, 'patch').detail(item.id),
+    mutationKey: keys(`/api/todos/${todo.id}`, 'patch').detail(todo.id),
     mutationFn: (obj: { id: Todo['id']; task: Todo['task'] }) =>
       editTodo(obj.id, { task: obj.task }),
     onSuccess: async () => {
@@ -64,7 +64,7 @@ export default function TodoCard({ item }: { item: Todo }) {
     <div className='w-full md:w-[400px] '>
       <Card className='w-full md:w-[400px] px-4 py-4 mb-4 bg-gray-200'>
         <div className='flex justify-between items-center'>
-          <h1>{item.task}</h1>
+          <h1>{todo.task}</h1>
           <Popover>
             <PopoverTrigger asChild>
               <div className='cursor-pointer'>
@@ -100,7 +100,7 @@ export default function TodoCard({ item }: { item: Todo }) {
                                 Todo
                               </Label>
                               <Input
-                                placeholder={item.task}
+                                placeholder={todo.task}
                                 id='name'
                                 className='col-span-3'
                                 onChange={(e) => {
@@ -115,7 +115,7 @@ export default function TodoCard({ item }: { item: Todo }) {
                               type='submit'
                               onClick={() => {
                                 EditTodoMutation({
-                                  id: item.id,
+                                  id: todo.id,
                                   task: input,
                                 });
                                 setIsDialogOpen(false); // Close the dialog
@@ -129,7 +129,7 @@ export default function TodoCard({ item }: { item: Todo }) {
                     </Dialog>
                     <Button
                       onClick={() => {
-                        deleteTodoMutation(item.id);
+                        deleteTodoMutation(todo.id);
                       }}
                     >
                       <FaEdit size={18} className='text-red-400 mr-2' /> Delete

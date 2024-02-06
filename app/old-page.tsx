@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { isAuthenticated } from '@/lib/auth';
-import { Todo } from '@/payload-types';
+import { Todo } from '@/types/payload-types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 const Todo = () => {
