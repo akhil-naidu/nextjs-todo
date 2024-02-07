@@ -39,15 +39,24 @@ export const metadata = {
   ],
   authors: [
     {
-      name: 'shadcn',
-      url: 'https://shadcn.com',
+      name: 'ContentQL',
+      url: 'https://contentql.io',
     },
   ],
-  creator: 'shadcn',
+  creator: 'ContentQL',
+
+  /* 
+  should be only used once the theme file was configured properly
+
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: 'white' },
     { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
+  */
+
+  /*
+  OG Meta tags should be provided only with real seo details, using localhost will give warnings
+
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -63,6 +72,8 @@ export const metadata = {
     images: [`${siteConfig.url}/og.jpg`],
     creator: '@shadcn',
   },
+
+  */
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -79,7 +90,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
           fontSans.variable,
-          fontHeading.variable
+          fontHeading.variable,
         )}
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
