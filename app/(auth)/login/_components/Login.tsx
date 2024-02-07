@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 
 const Login = () => {
   return (
-    <div>
+    <div className='container flex h-screen w-screen flex-col items-center justify-center'>
       <Link
         href='/'
         className={cn(

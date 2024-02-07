@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { createUser } from '@/apis/auth/mutations';
 import { keys } from '@/apis/query-keys';
@@ -19,8 +19,6 @@ import { useRouter } from 'next/navigation';
 const RegisterView = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const queryClient = useQueryClient();
 
   const router = useRouter();
 
@@ -45,14 +43,6 @@ const RegisterView = () => {
       password,
     });
   };
-
-  useLayoutEffect(() => {
-    const auth = queryClient.getQueryData(keys('/api/users/me', 'get').main());
-
-    if (auth) {
-      router.push('/dashboard');
-    }
-  }, [queryClient, router]);
 
   return (
     <Card className='w-full max-w-sm'>

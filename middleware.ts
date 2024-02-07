@@ -12,7 +12,7 @@ export const middleware = async (req: NextRequest) => {
   const auth = await isAuthenticated();
 
   if (!auth && protectedRoutes.includes(req.nextUrl.pathname)) {
-    const absoluteURL = new URL('/', req.nextUrl.origin);
+    const absoluteURL = new URL('/login', req.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }
 };

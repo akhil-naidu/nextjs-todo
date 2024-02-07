@@ -51,14 +51,6 @@ const LoginView = () => {
     });
   };
 
-  // useLayoutEffect(() => {
-  //   const auth = queryClient.getQueryData(keys('/api/users/me', 'get').main());
-
-  //   if (auth) {
-  //     router.push('/dashboard');
-  //   }
-  // }, [queryClient, router]);
-
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader className='space-y-1'>
