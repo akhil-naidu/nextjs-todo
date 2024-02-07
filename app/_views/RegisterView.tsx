@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useLayoutEffect, useState } from 'react';
 
-import { login } from '@/apis/auth';
+import { createUser } from '@/apis/auth/mutations';
 import { keys } from '@/apis/query-keys';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 
-const LoginView = () => {
+const RegisterView = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -27,17 +27,14 @@ const LoginView = () => {
   const router = useRouter();
 
   const {
-    isPending: isLoginPending,
-    variables: loginVariables,
-    mutate: loginMutation,
+    isPending: isSignupPending,
+    variables: signupVariables,
+    mutate: signupMutation,
   } = useMutation({
     mutationKey: keys('/api/users/login', 'post').main(),
-    mutationFn: (userDetails: any) => login(userDetails),
+    mutationFn: (userDetails: any) => createUser(userDetails),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: keys('/api/todos', 'get').main(),
-      });
-      router.push('/dashboard');
+      router.push('/login');
       setEmail('');
       setPassword('');
     },
@@ -45,7 +42,7 @@ const LoginView = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation({
+    signupMutation({
       email,
       password,
     });
@@ -62,9 +59,9 @@ const LoginView = () => {
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader className='space-y-1'>
-        <CardTitle className='text-2xl font-bold'>Login</CardTitle>
+        <CardTitle className='text-2xl font-bold'>Sign Up</CardTitle>
         <CardDescription>
-          Enter your username and password to login to your account
+          Enter your username and password to create your account
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -91,14 +88,14 @@ const LoginView = () => {
               />
             </div>
             <Button className='w-full' type='submit'>
-              Login
+              Sign Up
             </Button>
           </div>
         </form>
         <div className='mt-4 text-center text-sm'>
-          Don&apos;t have an account?
-          <Link className='underline' href='/register'>
-            Sign up
+          Already have an account?
+          <Link className='underline' href='/login'>
+            Login
           </Link>
         </div>
       </CardContent>
@@ -106,4 +103,4 @@ const LoginView = () => {
   );
 };
 
-export default LoginView;
+export default RegisterView;

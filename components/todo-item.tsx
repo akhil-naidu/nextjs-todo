@@ -9,10 +9,7 @@ export function TodoItem({ todo }: { todo: Todo }) {
   return (
     <div className='flex items-center justify-between p-4'>
       <div className='grid gap-1'>
-        <Link
-          href={`/editor/${todo.id}`}
-          className='font-semibold hover:underline'
-        >
+        <Link href={``} className='font-semibold hover:underline'>
           {todo.task}
         </Link>
         <div>

@@ -86,13 +86,13 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
             </div>
           </div>
         </div>
-        <div className='border-t border-gray-700 mt-8 pt-8'>
+        <div className='border-t border-gray-700 mt-8 pt-8 flex justify-between pb-6'>
           <p className='text-gray-400 text-sm text-left'>
             © 2020 Your Company, Inc. All rights reserved.
           </p>
+          <ModeToggle />
         </div>
       </div>
-      <ModeToggle />
     </footer>
   );
 }

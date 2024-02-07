@@ -28,6 +28,9 @@ export function UserAccountNav({ user }: { user: any }) {
     mutationFn: () => logout(),
     onSuccess: async () => {
       await queryClient.setQueryData(keys('/api/todos', 'get').main(), []);
+      await queryClient.invalidateQueries({
+        queryKey: keys('/api/users/me', 'get').main(),
+      });
       router.push('/login');
     },
   });
