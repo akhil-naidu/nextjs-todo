@@ -49,7 +49,14 @@ const LoggedUser = () => {
             first.
           </CardDescription>
         </CardHeader>
-        <CardContent className='space-y-4'>
+        <CardContent className='flex gap-2'>
+          <Button
+            className='w-full'
+            onClick={() => router.push('/')}
+            variant='outline'
+          >
+            Back to Home
+          </Button>
           <Button className='w-full' onClick={() => router.push('/dashboard')}>
             Back to Dashboard
           </Button>
