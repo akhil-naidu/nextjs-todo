@@ -29,4 +29,18 @@ export const dashboardConfig: DashboardConfig = {
       icon: 'settings',
     },
   ],
+  userAccountNav: [
+    {
+      title: 'Dashboard',
+      href: '/dashboard',
+    },
+    {
+      title: 'Billing',
+      href: '/dashboard/billing',
+    },
+    {
+      title: 'Settings',
+      href: '/dashboard/settings',
+    },
+  ],
 };

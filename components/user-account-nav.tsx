@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserAvatar } from '@/components/user-avatar';
+import { dashboardConfig } from '@/config/dashboard';
 
 export function UserAccountNav({ user }: { user: any }) {
   const queryClient = useQueryClient();
@@ -55,15 +56,13 @@ export function UserAccountNav({ user }: { user: any }) {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href='/dashboard'>Dashboard</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href='/dashboard/billing'>Billing</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href='/dashboard/settings'>Settings</Link>
-        </DropdownMenuItem>
+        {dashboardConfig.userAccountNav.map((navItem) => {
+          return (
+            <DropdownMenuItem asChild key={navItem.title}>
+              <Link href={navItem.href!}>{navItem.title}</Link>
+            </DropdownMenuItem>
+          );
+        })}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className='cursor-pointer'
