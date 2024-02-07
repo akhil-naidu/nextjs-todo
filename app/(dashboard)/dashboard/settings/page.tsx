@@ -1,4 +1,4 @@
-import SettingsView from '@/app/_views/SettingsView';
+import Settings from './_components/Settings';
 
 export const metadata = {
   title: 'Settings',
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default async function SettingsPage() {
-  return <SettingsView />;
+  return <Settings />;
 }

@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { login } from '@/apis/auth';
 import { keys } from '@/apis/query-keys';
@@ -51,13 +51,13 @@ const LoginView = () => {
     });
   };
 
-  useLayoutEffect(() => {
-    const auth = queryClient.getQueryData(keys('/api/users/me', 'get').main());
+  // useLayoutEffect(() => {
+  //   const auth = queryClient.getQueryData(keys('/api/users/me', 'get').main());
 
-    if (auth) {
-      router.push('/dashboard');
-    }
-  }, [queryClient, router]);
+  //   if (auth) {
+  //     router.push('/dashboard');
+  //   }
+  // }, [queryClient, router]);
 
   return (
     <Card className='w-full max-w-sm'>
